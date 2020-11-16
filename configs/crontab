@@ -1,0 +1,24 @@
+#  LPAR2RRD
+######################################################
+
+# GUI
+0,30 * * * * /home/lpar2rrd/lpar2rrd/load.sh > /home/lpar2rrd/lpar2rrd/logs/load.out 2>&1
+
+# IBM Power Systems - REST API
+0,20,40 * * * * /home/lpar2rrd/lpar2rrd/load_hmc_rest_api.sh > /home/lpar2rrd/lpar2rrd/load_hmc_rest_api.out 2>&1
+
+# MS Hyper-V support   
+0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_hyperv.sh > /home/lpar2rrd/lpar2rrd/load_hyperv.out 2>&1 
+
+# XenServer support   
+0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_xenserver.sh > /home/lpar2rrd/lpar2rrd/load_xenserver.out 2>&1 
+
+# oVirt / RHV Server support   
+0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_ovirt.sh > /home/lpar2rrd/lpar2rrd/load_ovirt.out 2>&1 
+
+# HMC agent (it collects HMC utilization itself : CPU/Mem/paging)
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * . /home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg; /usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl -c localhost > /var/tmp/lpar2rrd-agent-hmc.out 2>/var/tmp/lpar2rrd-agent-hmc.err 
+
+# Alerting - HMC CLI only
+0,10,20,30,40,50 * * * * /home/lpar2rrd/lpar2rrd/load_alert.sh > /home/lpar2rrd/lpar2rrd/load_alert.out 2>&1
+
