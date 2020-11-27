@@ -20,6 +20,6 @@ You can set container timezone via env variable TIMEZONE in docker run command:
 
     docker run -d --name LPAR2RRD --restart always -v $XORUX_DIR/lpar2rrd:/home/lpar2rrd/lpar2rrd -p 8080:80 -e TIMEZONE="Europe/Prague" xorux/lpar2rrd
 
-Application UI can be found on http://<CONTAINER_IP>/lpar2rrd , use admin/admin for login.
+Application UI can be found on http://<CONTAINER_IP>, use admin/admin for login.
 
 You can connect via SSH on port 22 (exposed), username **lpar2rrd**, password **xorux4you** - please change it ASAP.
