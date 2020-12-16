@@ -75,8 +75,8 @@ COPY configs/apache2/htpasswd /etc/apache2/conf/
 RUN sed -i 's/^User apache/User lpar2rrd/g' /etc/apache2/httpd.conf
 
 # add product installations
-ENV LPAR_VER_MAJ "7.04"
-ENV LPAR_VER_MIN "-2"
+ENV LPAR_VER_MAJ "7.05"
+ENV LPAR_VER_MIN "-6"
 ENV LPAR_SF_DIR "7.00"
 
 ENV LPAR_VER "$LPAR_VER_MAJ$LPAR_VER_MIN"
@@ -102,9 +102,12 @@ COPY supervisord.conf /etc/
 COPY startup.sh /startup.sh
 RUN chmod +x /startup.sh
 
-RUN mkdir -p /home/lpar2rrd/lpar2rrd
-RUN chown -R lpar2rrd /home/lpar2rrd
-VOLUME [ "/home/lpar2rrd/lpar2rrd" ]
+#RUN mkdir -p /home/lpar2rrd/lpar2rrd/data
+#RUN mkdir -p /home/lpar2rrd/lpar2rrd/etc
+VOLUME [ "/home/lpar2rrd/lpar2rrd/etc" ]
+VOLUME [ "/home/lpar2rrd/lpar2rrd/data" ]
+
+#RUN chown -R 1005 /home/lpar2rrd
 
 ENTRYPOINT [ "/startup.sh" ]
 

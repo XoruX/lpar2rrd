@@ -26,20 +26,33 @@ EOF
 
 	# Generate Host keys
 	ssh-keygen -A
+        
+        
 
 	# setup products
-        if [ -d "/home/lpar2rrd/lpar2rrd/bin" ]; then
+        if [ -f "/home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg" ]; then
+            # spoof files to force update, not install
+            mkdir -p /home/lpar2rrd/lpar2rrd/bin
+            touch /home/lpar2rrd/lpar2rrd/bin/lpar2rrd.pl
+            touch /home/lpar2rrd/lpar2rrd/load.sh
             ITYPE="update.sh"
         else
             ITYPE="install.sh"
         fi
+
+        # change ownership of files, mounted volumes
+        chown -R 1005 /home/lpar2rrd
+
 	su - lpar2rrd -c "cd /home/lpar2rrd/lpar2rrd-$LPAR_VER/; yes '' | ./$ITYPE"
+        if [ "$ITYPE" = "update.sh" ]; then
+            su - lpar2rrd -c "cd /home/lpar2rrd/lpar2rrd; ./load.sh html"
+        fi
 	rm -r /home/lpar2rrd/lpar2rrd-$LPAR_VER
 
 	# enable LPAR2RRD daemon on default port (8162)
 	sed -i "s/LPAR2RRD_AGENT_DAEMON\=0/LPAR2RRD_AGENT_DAEMON\=1/g" /home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg
 	# set DOCKER env var
-	echo "export DOCKER=1" >> /home/lpar2rrd/lpar2rrd/etc/.magic
+	su - lpar2rrd -c "echo 'export DOCKER=1' >> /home/lpar2rrd/lpar2rrd/etc/.magic"
 
 	if [[ -z "${TIMEZONE}" ]]; then
 		# set default TZ to London, enable TZ change via GUI
