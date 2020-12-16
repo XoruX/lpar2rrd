@@ -12,7 +12,7 @@ or better
     XORUX_DIR=/srv/xorux   # select any directory with rwx owner permissions
     mkdir -p $XORUX_DIR/lpar2rrd
     chown 1005 $XORUX_DIR/lpar2rrd # 1005 is uid of user lpar2rrd inside the container
-    docker run -d --name LPAR2RRD --restart always -v $XORUX_DIR/lpar2rrd:/home/lpar2rrd/lpar2rrd -p 8080:80 xorux/lpar2rrd
+    docker run -d --name LPAR2RRD --restart always -v $XORUX_DIR/lpar2rrd/data:/home/lpar2rrd/lpar2rrd/data -v $XORUX_DIR/lpar2rrd/etc:/home/lpar2rrd/lpar2rrd/etc -p 8080:80 xorux/lpar2rrd
 
 If you run container with volume params, it will use XORUX_DIR to store all data and configurations for easy backups, log access and further upgrades.
 
