@@ -76,7 +76,7 @@ RUN sed -i 's/^User apache/User lpar2rrd/g' /etc/apache2/httpd.conf
 
 # add product installations
 ENV LPAR_VER_MAJ "7.05"
-ENV LPAR_VER_MIN "-17"
+ENV LPAR_VER_MIN "-21"
 ENV LPAR_SF_DIR "7.00"
 
 ENV LPAR_VER "$LPAR_VER_MAJ$LPAR_VER_MIN"
