@@ -52,7 +52,10 @@ RUN apk update && apk add \
     make \
     tar \
     perl-dev \
-    perl-app-cpanminus
+    perl-app-cpanminus \
+    sqlite \
+    perl-dbd-pg \
+    perl-dbd-sqlite
 
 # perl-font-ttf fron testing repo (needed for PDF reports)
 RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community perl-font-ttf
@@ -75,9 +78,8 @@ COPY configs/apache2/htpasswd /etc/apache2/conf/
 RUN sed -i 's/^User apache/User lpar2rrd/g' /etc/apache2/httpd.conf
 
 # add product installations
-ENV LPAR_VER_MAJ "7.05"
-ENV LPAR_VER_MIN "-21"
-ENV LPAR_SF_DIR "7.00"
+ENV LPAR_VER_MAJ "7.07"
+ENV LPAR_VER_MIN "-1"
 
 ENV LPAR_VER "$LPAR_VER_MAJ$LPAR_VER_MIN"
 
@@ -92,7 +94,7 @@ RUN chmod 640 /var/spool/cron/crontabs/lpar2rrd && chown lpar2rrd.cron /var/spoo
 # ADD http://downloads.sourceforge.net/project/stor2rrd/stor2rrd/$STOR_SF_DIR/stor2rrd-$STOR_VER.tar /home/stor2rrd/
 
 # download tarballs from official website
-ADD https://lpar2rrd.com/download-static/lpar2rrd/lpar2rrd-$LPAR_VER.tar /home/lpar2rrd/
+ADD https://lpar2rrd.com/download/lpar2rrd-$LPAR_VER.tar /home/lpar2rrd/
 
 # extract tarballs
 WORKDIR /home/lpar2rrd

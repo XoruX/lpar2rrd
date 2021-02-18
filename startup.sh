@@ -61,6 +61,10 @@ EOF
 	echo "${TIMEZONE}" > /etc/timezone
 	chmod 666 /etc/timezone
 	ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
+	
+        if [ $XORMON ] && [ "$XORMON" != "0" ]; then
+            su - lpar2rrd -c "echo 'export XORMON=1' >> /home/lpar2rrd/lpar2rrd/etc/.magic"
+	fi
 
 	# copy .htaccess files for ACL
 	cp -p /home/lpar2rrd/lpar2rrd/html/.htaccess /home/lpar2rrd/lpar2rrd/www
