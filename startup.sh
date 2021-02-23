@@ -41,7 +41,7 @@ EOF
         fi
 
         # change ownership of files, mounted volumes
-        chown -R 1005 /home/lpar2rrd
+        chown -R lpar2rrd /home/lpar2rrd
 
 	su - lpar2rrd -c "cd /home/lpar2rrd/lpar2rrd-$LPAR_VER/; yes '' | ./$ITYPE"
         if [ "$ITYPE" = "update.sh" ]; then

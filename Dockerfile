@@ -66,7 +66,7 @@ RUN cpanm -l /usr -n PDF::API2
 
 # setup default user
 RUN addgroup -S lpar2rrd 
-RUN adduser -S lpar2rrd -G lpar2rrd -u 1005 -s /bin/bash
+RUN adduser -S lpar2rrd -G lpar2rrd -s /bin/bash
 RUN echo 'lpar2rrd:xorux4you' | chpasswd
 RUN echo '%lpar2rrd ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
@@ -79,7 +79,7 @@ RUN sed -i 's/^User apache/User lpar2rrd/g' /etc/apache2/httpd.conf
 
 # add product installations
 ENV LPAR_VER_MAJ "7.07"
-ENV LPAR_VER_MIN "-1"
+ENV LPAR_VER_MIN "-5"
 
 ENV LPAR_VER "$LPAR_VER_MAJ$LPAR_VER_MIN"
 
@@ -94,7 +94,7 @@ RUN chmod 640 /var/spool/cron/crontabs/lpar2rrd && chown lpar2rrd.cron /var/spoo
 # ADD http://downloads.sourceforge.net/project/stor2rrd/stor2rrd/$STOR_SF_DIR/stor2rrd-$STOR_VER.tar /home/stor2rrd/
 
 # download tarballs from official website
-ADD https://lpar2rrd.com/download/lpar2rrd-$LPAR_VER.tar /home/lpar2rrd/
+ADD https://lpar2rrd.com/download-static/lpar2rrd-$LPAR_VER.tar /home/lpar2rrd/
 
 # extract tarballs
 WORKDIR /home/lpar2rrd
@@ -108,8 +108,6 @@ RUN chmod +x /startup.sh
 #RUN mkdir -p /home/lpar2rrd/lpar2rrd/etc
 VOLUME [ "/home/lpar2rrd/lpar2rrd/etc" ]
 VOLUME [ "/home/lpar2rrd/lpar2rrd/data" ]
-
-#RUN chown -R 1005 /home/lpar2rrd
 
 ENTRYPOINT [ "/startup.sh" ]
 
