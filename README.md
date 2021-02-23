@@ -1,4 +1,4 @@
-# XoruX LPAR2RRD Docker
+# XoruX LPAR2RRD
 This is dockerized version of single [XoruX](https://www.xorux.com) application - [LPAR2RRD](https://www.lpar2rrd.com).
 
 It's based on the latest official [Alpine Linux](https://hub.docker.com/_/alpine) with all necessary dependencies installed.
