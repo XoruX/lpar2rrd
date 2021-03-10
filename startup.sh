@@ -24,26 +24,24 @@ EOF
 	# RRDp module not found, move it
 	mv /usr/share/vendor_perl/RRDp.pm  /usr/share/perl5/vendor_perl/
 
-	# Generate Host keys
-	ssh-keygen -A
-        
-        
-
 	# setup products
         if [ -f "/home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg" ]; then
             # spoof files to force update, not install
-            mkdir -p /home/lpar2rrd/lpar2rrd/bin
-            touch /home/lpar2rrd/lpar2rrd/bin/lpar2rrd.pl
-            touch /home/lpar2rrd/lpar2rrd/load.sh
+            #mkdir -p /home/lpar2rrd/lpar2rrd/bin
+            #touch /home/lpar2rrd/lpar2rrd/bin/lpar2rrd.pl
+            #touch /home/lpar2rrd/lpar2rrd/load.sh
             ITYPE="update.sh"
         else
+            # Generate Host keys
+	    ssh-keygen -A
             ITYPE="install.sh"
         fi
 
         # change ownership of files, mounted volumes
         chown -R lpar2rrd /home/lpar2rrd
+        chown -R lpar2rrd /tmp/lpar2rrd-$LPAR_VER
 
-	su - lpar2rrd -c "cd /home/lpar2rrd/lpar2rrd-$LPAR_VER/; yes '' | ./$ITYPE"
+	su - lpar2rrd -c "cd /tmp/lpar2rrd-$LPAR_VER/; yes '' | ./$ITYPE"
         if [ "$ITYPE" = "update.sh" ]; then
             su - lpar2rrd -c "cd /home/lpar2rrd/lpar2rrd; ./load.sh html"
         fi
