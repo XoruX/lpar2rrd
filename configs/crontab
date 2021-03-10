@@ -43,7 +43,7 @@
 # Kubernetes
 0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_kubernetes.sh > /home/lpar2rrd/lpar2rrd/load_kubernetes.out 2>&1
 
-# RedHat OpenShift support
-0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_openshift.sh > /home/lpar2rrd/lpar2rrd/load_openshift.out 2>&1
+# RedHat OpenShift support   
+0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_openshift.sh > /home/lpar2rrd/lpar2rrd/load_openshift.out 2>&1 
 
 

@@ -64,8 +64,6 @@ RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing sbli
 # install perl PDF API from CPAN
 RUN cpanm -l /usr -n PDF::API2
 
-VOLUME [ "/home/lpar2rrd" ]
-
 # setup default user
 RUN addgroup -S lpar2rrd 
 RUN adduser -S lpar2rrd -G lpar2rrd -s /bin/bash
@@ -80,8 +78,8 @@ COPY configs/apache2/htpasswd /etc/apache2/conf/
 RUN sed -i 's/^User apache/User lpar2rrd/g' /etc/apache2/httpd.conf
 
 # add product installations
-ENV LPAR_VER_MAJ "7.08"
-ENV LPAR_VER_MIN "-6"
+ENV LPAR_VER_MAJ "7.09"
+ENV LPAR_VER_MIN ""
 
 ENV LPAR_VER "$LPAR_VER_MAJ$LPAR_VER_MIN"
 
@@ -108,6 +106,8 @@ RUN chmod +x /startup.sh
 
 #RUN mkdir -p /home/lpar2rrd/lpar2rrd/data
 #RUN mkdir -p /home/lpar2rrd/lpar2rrd/etc
+
+VOLUME [ "/home/lpar2rrd" ]
 
 ENTRYPOINT [ "/startup.sh" ]
 

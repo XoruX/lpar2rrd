@@ -45,7 +45,7 @@ EOF
         if [ "$ITYPE" = "update.sh" ]; then
             su - lpar2rrd -c "cd /home/lpar2rrd/lpar2rrd; ./load.sh html"
         fi
-	rm -r /home/lpar2rrd/lpar2rrd-$LPAR_VER
+	rm -r /tmp/lpar2rrd-$LPAR_VER
 
 	# enable LPAR2RRD daemon on default port (8162)
 	sed -i "s/LPAR2RRD_AGENT_DAEMON\=0/LPAR2RRD_AGENT_DAEMON\=1/g" /home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg
