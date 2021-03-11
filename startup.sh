@@ -23,6 +23,9 @@ EOF
 
 	# RRDp module not found, move it
 	mv /usr/share/vendor_perl/RRDp.pm  /usr/share/perl5/vendor_perl/
+            
+        # Generate Host keys
+	ssh-keygen -A
 
 	# setup products
         if [ -f "/home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg" ]; then
@@ -32,8 +35,6 @@ EOF
             #touch /home/lpar2rrd/lpar2rrd/load.sh
             ITYPE="update.sh"
         else
-            # Generate Host keys
-	    ssh-keygen -A
             ITYPE="install.sh"
         fi
 
