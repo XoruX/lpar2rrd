@@ -78,7 +78,12 @@ fi
 
 # Sometimes with un unclean exit the rsyslog pid doesn't get removed and refuses to start
 if [ -f /var/run/rsyslogd.pid ]; then
-	rm /var/run/rsyslogd.pid
+    rm /var/run/rsyslogd.pid
+fi
+
+# The same for Apache daemon
+if [ -f /var/run/apache2/httpd.pid ]; then
+    rm /var/run/apache2/httpd.pid
 fi
 
 # Start supervisor to start the services
