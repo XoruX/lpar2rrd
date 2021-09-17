@@ -39,7 +39,6 @@ RUN apk update && apk add \
     libxml2-utils \
     # snmp-mibs-downloader \
     openssh-client \
-    openssh-server \
     ttf-dejavu \
     graphviz \
     vim \
