@@ -17,4 +17,3 @@ If you want to use this container as a XorMon backend, set XORMON env variable:
 
 Application UI can be found on http://\<CONTAINER_IP\>, use admin/admin for login.
 
-You can connect via SSH on port 22 (exposed), username **lpar2rrd**, password **xorux4you** - please change it ASAP.
