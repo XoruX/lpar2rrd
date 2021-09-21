@@ -86,7 +86,7 @@ ENV LPAR_VER_MIN ""
 ENV LPAR_VER "$LPAR_VER_MAJ$LPAR_VER_MIN"
 
 # expose ports for SSH, HTTP, HTTPS and LPAR2RRD daemon
-EXPOSE 80 443 8162
+EXPOSE 80 8162
 
 COPY configs/crontab /var/spool/cron/crontabs/lpar2rrd
 RUN chmod 640 /var/spool/cron/crontabs/lpar2rrd && chown lpar2rrd.cron /var/spool/cron/crontabs/lpar2rrd
