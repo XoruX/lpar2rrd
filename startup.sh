@@ -32,8 +32,10 @@ EOF
             #touch /home/lpar2rrd/lpar2rrd/load.sh
             ITYPE="update.sh"
         else
-            ssh-keygen -A # Generate host keys
             ITYPE="install.sh"
+            # copy .htaccess files for ACL
+	    cp -p /home/lpar2rrd/lpar2rrd/html/.htaccess /home/lpar2rrd/lpar2rrd/www
+	    cp -p /home/lpar2rrd/lpar2rrd/html/.htaccess /home/lpar2rrd/lpar2rrd/lpar2rrd-cgi
         fi
 
         # change ownership of files, mounted volumes
@@ -63,9 +65,6 @@ EOF
             su - lpar2rrd -c "echo 'export XORMON=1' >> /home/lpar2rrd/lpar2rrd/etc/.magic"
 	fi
 
-	# copy .htaccess files for ACL
-	cp -p /home/lpar2rrd/lpar2rrd/html/.htaccess /home/lpar2rrd/lpar2rrd/www
-	cp -p /home/lpar2rrd/lpar2rrd/html/.htaccess /home/lpar2rrd/lpar2rrd/lpar2rrd-cgi
 
 	# initialize lpar2rrd's crontab
 	crontab -u lpar2rrd /var/spool/cron/crontabs/lpar2rrd
