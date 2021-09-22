@@ -8,7 +8,7 @@ if [ -f /firstrun ]; then
     # Start syslog server to see something
     # /usr/sbin/rsyslogd
 
-    echo "Running for first time.. need to configure..."
+    echo "Running for the first time.. need to configure..."
 
     ln -s /etc/apache2/sites-available/*.conf /etc/apache2/conf.d/
 
@@ -24,6 +24,10 @@ EOF
     # RRDp module not found, move it
     mv /usr/share/vendor_perl/RRDp.pm  /usr/share/perl5/vendor_perl/
 
+    # change ownership of files, mounted volumes
+    chown -R lpar2rrd /home/lpar2rrd
+    chown -R lpar2rrd /tmp/lpar2rrd-$LPAR_VER
+
     # setup products
     if [ -f "/home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg" ]; then
         # spoof files to force update, not install
@@ -33,7 +37,7 @@ EOF
         OLD_VER=`tail -1 /home/lpar2rrd/lpar2rrd/etc/version.txt | sed 's/ .*//'`
         ITYPE="update.sh"
         if [ -f "/home/lpar2rrd/lpar2rrd/bin/premium.sh" ]; then
-            echo "Premium version detected, no update will be run"
+            echo "Premium version detected, no update will be done"
         elif [ "$OLD_VER" = "$LPAR_VER" ]; then
             echo "The version is still the same, no update needed"
         else
@@ -53,10 +57,6 @@ EOF
         # set DOCKER env var
         su - lpar2rrd -c "echo 'export DOCKER=1' >> /home/lpar2rrd/lpar2rrd/etc/.magic"
     fi
-
-    # change ownership of files, mounted volumes
-    chown -R lpar2rrd /home/lpar2rrd
-    chown -R lpar2rrd /tmp/lpar2rrd-$LPAR_VER
 
     rm -r /tmp/lpar2rrd-$LPAR_VER
 
