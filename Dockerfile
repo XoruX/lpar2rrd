@@ -73,11 +73,15 @@ RUN echo 'lpar2rrd:xorux4you' | chpasswd
 RUN echo '%lpar2rrd ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # configure Apache
-COPY configs/apache2 /etc/apache2/sites-available
+COPY configs/apache2/lpar2rrd.conf /etc/apache2/sites-available/
 COPY configs/apache2/htpasswd /etc/apache2/conf/
+COPY configs/apache2/hardening.conf /etc/apache2/conf.d
 
 # change apache user to lpar2rrd
 RUN sed -i 's/^User apache/User lpar2rrd/g' /etc/apache2/httpd.conf
+
+# disable status module
+RUN sed -i '/mod_status.so/ s/^#*/#/' /etc/apache2/httpd.conf
 
 # add product installations
 ENV LPAR_VER_MAJ "7.21"
