@@ -69,8 +69,6 @@ RUN cpanm -l /usr -n PDF::API2
 # setup default user
 RUN addgroup -S lpar2rrd 
 RUN adduser -S lpar2rrd -G lpar2rrd -s /bin/bash
-RUN echo 'lpar2rrd:xorux4you' | chpasswd
-RUN echo '%lpar2rrd ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # configure Apache
 COPY configs/apache2/lpar2rrd.conf /etc/apache2/sites-available/
