@@ -57,7 +57,8 @@ RUN apk update && apk add \
     perl-dbd-sqlite \
     iproute2 \
     lsblk \
-    procps
+    procps \
+    diffutils
 
 # perl-font-ttf fron testing repo (needed for PDF reports)
 RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community perl-font-ttf
@@ -82,7 +83,7 @@ RUN sed -i 's/^User apache/User lpar2rrd/g' /etc/apache2/httpd.conf
 RUN sed -i '/mod_status.so/ s/^#*/#/' /etc/apache2/httpd.conf
 
 # add product installations
-ENV LPAR_VER_MAJ "7.21"
+ENV LPAR_VER_MAJ "7.30"
 ENV LPAR_VER_MIN ""
 
 ENV LPAR_VER "$LPAR_VER_MAJ$LPAR_VER_MIN"

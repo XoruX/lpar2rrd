@@ -4,9 +4,6 @@
 # GUI
 0,30 * * * * /home/lpar2rrd/lpar2rrd/load.sh > /home/lpar2rrd/lpar2rrd/logs/load.out 2>&1
 
-# Agent
-* * * * * /usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl localhost > /var/tmp/lpar2rrd-agent.out 2>&1
-
 # IBM Power Systems - REST API
 0,20,40 * * * * /home/lpar2rrd/lpar2rrd/load_hmc_rest_api.sh > /home/lpar2rrd/lpar2rrd/load_hmc_rest_api.out 2>&1
 
@@ -49,4 +46,5 @@
 # RedHat OpenShift support   
 0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_openshift.sh > /home/lpar2rrd/lpar2rrd/load_openshift.out 2>&1 
 
-
+# CloudStack support   
+0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_cloudstack.sh > /home/lpar2rrd/lpar2rrd/load_cloudstack.out 2>&1 
