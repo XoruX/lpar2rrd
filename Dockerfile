@@ -58,7 +58,8 @@ RUN apk update && apk add \
     iproute2 \
     lsblk \
     procps \
-    diffutils
+    diffutils \
+    dpkg
 
 # perl-font-ttf fron testing repo (needed for PDF reports)
 RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community perl-font-ttf
@@ -101,12 +102,12 @@ RUN chmod 640 /var/spool/cron/crontabs/lpar2rrd && chown lpar2rrd.cron /var/spoo
 # download tarballs from official website
 ADD https://lpar2rrd.com/download-static/lpar2rrd-$LPAR_VER.tar /tmp/
 RUN mkdir -p /opt/lpar2rrd-agent
-ADD https://lpar2rrd.com/agent/lpar2rrd-agent.pl.gz /opt/lpar2rrd-agent/
+ADD https://lpar2rrd.com/agent/lpar2rrd-agent-latest_all.deb /opt/lpar2rrd-agent/
 
 # extract tarballs
 WORKDIR /tmp
 RUN tar xvf lpar2rrd-$LPAR_VER.tar
-RUN gunzip /opt/lpar2rrd-agent/lpar2rrd-agent.pl.gz && chmod +r /opt/lpar2rrd-agent/lpar2rrd-agent.pl
+RUN dpkg -i /opt/lpar2rrd-agent/lpar2rrd-agent-latest_all.deb
 
 COPY supervisord.conf /etc/
 COPY startup.sh /startup.sh
