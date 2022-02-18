@@ -84,10 +84,10 @@ RUN sed -i 's/^User apache/User lpar2rrd/g' /etc/apache2/httpd.conf
 RUN sed -i '/mod_status.so/ s/^#*/#/' /etc/apache2/httpd.conf
 
 # add product installations
-ENV LPAR_VER_MAJ "7.30"
-ENV LPAR_VER_MIN ""
+ENV LPAR_VER_MAJ "7.31"
+ENV LPAR_VER_MIN "17"
 
-ENV LPAR_VER "$LPAR_VER_MAJ$LPAR_VER_MIN"
+ENV LPAR_VER "$LPAR_VER_MAJ-$LPAR_VER_MIN"
 
 # expose ports for SSH, HTTP, HTTPS and LPAR2RRD daemon
 EXPOSE 80 8162
