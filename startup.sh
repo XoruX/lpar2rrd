@@ -36,7 +36,17 @@ EOF
         #touch /home/lpar2rrd/lpar2rrd/load.sh
         OLD_VER=`tail -1 /home/lpar2rrd/lpar2rrd/etc/version.txt | sed 's/ .*//'`
         ITYPE="update.sh"
-        if [ -f "/home/lpar2rrd/lpar2rrd/bin/premium.sh" ]; then
+	
+	premium=0
+	if [ -f "/home/lpar2rrd/lpar2rrd/bin/XoruxEdition.pm" ]; then
+	  . /home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg
+	  strlength=`$PERL -MXoruxEdition -e 'print premium();' | wc -m`
+	    if [ $strlength -eq 6 ]; then
+  	    	premium=1
+	    fi
+	fi
+
+        if [ -f "/home/lpar2rrd/lpar2rrd/bin/premium.sh" ] || [ $premium -eq 1 ]; then
             echo "Premium version detected, no update will be done"
         elif [ "$OLD_VER" = "$LPAR_VER" ]; then
             echo "The version is still the same, no update needed"

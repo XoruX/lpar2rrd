@@ -7,6 +7,12 @@
 # IBM Power Systems - REST API
 0,20,40 * * * * /home/lpar2rrd/lpar2rrd/load_hmc_rest_api.sh > /home/lpar2rrd/lpar2rrd/load_hmc_rest_api.out 2>&1
 
+# HMC agent (it collects HMC utilization itself : CPU/Mem/paging)
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * . /home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg; /usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl -c localhost > /var/tmp/lpar2rrd-agent-hmc.out 2>/var/tmp/lpar2rrd-agent-hmc.err 
+
+# Alerting - HMC CLI only
+0,10,20,30,40,50 * * * * /home/lpar2rrd/lpar2rrd/load_alert.sh > /home/lpar2rrd/lpar2rrd/load_alert.out 2>&1
+
 # MS Hyper-V support   
 0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_hyperv.sh > /home/lpar2rrd/lpar2rrd/load_hyperv.out 2>&1 
 
@@ -16,17 +22,20 @@
 # oVirt / RHV Server support   
 0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_ovirt.sh > /home/lpar2rrd/lpar2rrd/load_ovirt.out 2>&1 
 
-# HMC agent (it collects HMC utilization itself : CPU/Mem/paging)
-0,5,10,15,20,25,30,35,40,45,50,55 * * * * . /home/lpar2rrd/lpar2rrd/etc/lpar2rrd.cfg; /usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl -c localhost > /var/tmp/lpar2rrd-agent-hmc.out 2>/var/tmp/lpar2rrd-agent-hmc.err 
-
-# Alerting - HMC CLI only
-0,10,20,30,40,50 * * * * /home/lpar2rrd/lpar2rrd/load_alert.sh > /home/lpar2rrd/lpar2rrd/load_alert.out 2>&1
-
 # OracleVM support   
 0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_oraclevm.sh > /home/lpar2rrd/lpar2rrd/load_oraclevm.out 2>&1 
 
 # Oracle DB support   
 0,5,10,15,20,25,30,35,40,45,50,55 * * * *  /home/lpar2rrd/lpar2rrd/load_oracledb.sh > /home/lpar2rrd/lpar2rrd/load_oracledb.out 2>&1 
+
+# MS SQL Server database support   
+0,5,10,15,20,25,30,35,40,45,50,55 * * * *  /home/lpar2rrd/lpar2rrd/load_sqlserver.sh > /home/lpar2rrd/lpar2rrd/load_sqlserver.out 2>&1 
+
+# PostgreSQL Database support   
+0,5,10,15,20,25,30,35,40,45,50,55 * * * *  /home/lpar2rrd/lpar2rrd/load_postgres.sh > /home/lpar2rrd/lpar2rrd/load_postgres.out 2>&1 
+
+# IBM Db2 support
+0,5,10,15,20,25,30,35,40,45,50,55 * * * *  /home/lpar2rrd/lpar2rrd/load_db2.sh > /home/lpar2rrd/lpar2rrd/load_db2.out 2>&1
 
 # Nutanix
 0,20,40 * * * *  /home/lpar2rrd/lpar2rrd/load_nutanix.sh > /home/lpar2rrd/lpar2rrd/load_nutanix.out 2>&1
