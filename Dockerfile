@@ -2,7 +2,7 @@
 #
 # VERSION               1.0
 
-FROM       alpine:latest
+FROM       alpine:3.20
 MAINTAINER jiri.dutka@xorux.com
 
 ENV HOSTNAME XoruX
@@ -11,7 +11,7 @@ ENV VI_IMAGE 1
 # create file to see if this is the firstrun when started
 RUN touch /firstrun
 
-RUN apk update && apk add \
+RUN apk -U upgrade && apk add --no-cache \
     bash \
     wget \
     supervisor \
@@ -59,9 +59,11 @@ RUN apk update && apk add \
     lsblk \
     procps \
     diffutils \
-    dpkg
+    dpkg \
+    gpg \
+    gpg-agent
 
-# perl-font-ttf fron testing repo (needed for PDF reports)
+# perl-font-ttf from testing repo (needed for PDF reports)
 RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community perl-font-ttf
 RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing sblim-wbemcli
 
@@ -91,8 +93,8 @@ RUN sed -i 's/^User apache/User lpar2rrd/g' /etc/apache2/httpd.conf
 RUN sed -i '/mod_status.so/ s/^#*/#/' /etc/apache2/httpd.conf
 
 # add product installations
-ENV LPAR_VER_MAJ "7.80"
-ENV LPAR_VER_MIN "-1"
+ENV LPAR_VER_MAJ "8.00"
+ENV LPAR_VER_MIN ""
 
 ENV LPAR_VER "${LPAR_VER_MAJ}${LPAR_VER_MIN}"
 
@@ -100,20 +102,21 @@ ENV LPAR_VER "${LPAR_VER_MAJ}${LPAR_VER_MIN}"
 EXPOSE 80 8162
 
 COPY configs/crontab /var/spool/cron/crontabs/lpar2rrd
-RUN chmod 640 /var/spool/cron/crontabs/lpar2rrd && chown lpar2rrd.cron /var/spool/cron/crontabs/lpar2rrd
+RUN chmod 640 /var/spool/cron/crontabs/lpar2rrd && chown lpar2rrd:cron /var/spool/cron/crontabs/lpar2rrd
 
 # download tarballs from SF
 # ADD http://downloads.sourceforge.net/project/lpar2rrd/lpar2rrd/$LPAR_SF_DIR/lpar2rrd-$LPAR_VER.tar /home/lpar2rrd/
 # ADD http://downloads.sourceforge.net/project/stor2rrd/stor2rrd/$STOR_SF_DIR/stor2rrd-$STOR_VER.tar /home/stor2rrd/
 
 # download tarballs from official website
-ADD https://lpar2rrd.com/download-static/lpar2rrd-$LPAR_VER.tar /tmp/
+ADD https://lpar2rrd.com/download-static/lpar2rrd/lpar2rrd-$LPAR_VER.tar /tmp/
+RUN chmod 644 /tmp/lpar2rrd-$LPAR_VER.tar
 RUN mkdir -p /opt/lpar2rrd-agent
 ADD https://lpar2rrd.com/agent/lpar2rrd-agent-latest_all.deb /opt/lpar2rrd-agent/
 
 # extract tarballs
 WORKDIR /tmp
-RUN tar xvf lpar2rrd-$LPAR_VER.tar
+RUN sudo -u lpar2rrd tar xvf lpar2rrd-$LPAR_VER.tar
 RUN dpkg -i /opt/lpar2rrd-agent/lpar2rrd-agent-latest_all.deb
 
 COPY supervisord.conf /etc/
